@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planilha Universal de Progressão para Concursos — Edital Verticalizado & Simulados</title>
+  <meta name="description" content="Matriz profissional para concurseiros: controle de edital verticalizado, simulados com pontuação líquida (Cebraspe, FGV, FCC), diagnóstico de erros e painel de evolução.">
+  <style>
+    :root {
+      --bg: #050914;
+      --surface: #0d1527;
+      --blue: #3b82f6;
+      --cyan: #06b6d4;
+      --gold: #f59e0b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .topbar {
+      background: linear-gradient(90deg, #1d4ed8, #0284c7);
+      color: #fff;
+      text-align: center;
+      padding: 0.6rem 1rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem; }
+    .hero {
+      padding: 4.5rem 0 4rem;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding: 3rem 0; }
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      font-size: clamp(2.1rem, 4vw, 3.2rem);
+      line-height: 1.12;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+    }
+    h1 span {
+      background: linear-gradient(135deg, #60a5fa, #22d3ee, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p { color: var(--muted); font-size: 1.12rem; margin-bottom: 2rem; }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #2563eb, #0284c7);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.08rem;
+      text-decoration: none;
+      padding: 1.05rem 2.2rem;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
+      transition: transform 0.2s ease;
+    }
+    .cta-btn:hover { transform: translateY(-2px); }
+    .hero-visual {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 1.25rem;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.65);
+    }
+    .hero-visual img { width: 100%; border-radius: 16px; display: block; }
+    .section { padding: 4.5rem 0; border-top: 1px solid var(--border); }
+    .section-header { text-align: center; max-width: 740px; margin: 0 auto 3rem; }
+    .section-header h2 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 0.75rem; }
+    .section-header p { color: var(--muted); font-size: 1.05rem; }
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.75rem;
+    }
+    .module-card .step-num {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.18);
+      color: #60a5fa;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+    }
+    .module-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .module-card p { color: var(--muted); font-size: 0.95rem; }
+
+    .offer-box {
+      max-width: 640px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #111c35 0%, #0a1122 100%);
+      border: 2px solid var(--blue);
+      border-radius: 24px;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(37, 99, 235, 0.22);
+    }
+    .price-big { font-size: 3rem; font-weight: 900; margin: 1rem 0 0.25rem; }
+    .check-list { list-style: none; text-align: left; margin: 1.75rem 0; }
+    .check-list li {
+      padding: 0.55rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.96rem;
+    }
+    .faq-list { max-width: 760px; margin: 0 auto; display: grid; gap: 1rem; }
+    details.faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.35rem;
+    }
+    details.faq-item[open] { border-color: var(--blue); }
+    details.faq-item summary {
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    details.faq-item summary::-webkit-details-marker { display: none; }
+    details.faq-item summary::after { content: "+"; font-size: 1.3rem; color: var(--blue); }
+    details.faq-item[open] summary::after { content: "−"; }
+    details.faq-item p { margin-top: 0.85rem; color: var(--muted); font-size: 0.96rem; }
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">🎯 COMPATÍVEL COM CEBRASPE (1x1 e 2x1), FGV, FCC, VUNESP E QUALQUER EDITAL</div>
+
+  <div class="container">
+    <section class="hero">
+      <div>
+        <div class="pill">🏆 Matriz Inteligente de Alta Performance</div>
+        <h1>Pare de Estudar no Escuro: <span>Transforme Seus Simulados e Revisões em Aprovação</span></h1>
+        <p>Controle o Edital Verticalizado, calcule automaticamente sua <strong>Pontuação Líquida</strong> conforme a regra da banca e descubra exatamente qual disciplina está travando a sua nomeação.</p>
+        <a href="#oferta" class="cta-btn">ACESSAR A MATRIZ DE APROVAÇÃO →</a>
+        <p style="margin-top:0.9rem; font-size:0.85rem; color:#64748b;">🔒 Acesso Vitalício Imediato via Hotmart • Reutilizável para Quantos Concursos Quiser</p>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/capas/capa-concursos-matriz.jpg" alt="Mockup Planilha Universal de Progressão para Concursos" width="500" height="500">
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Os 6 Módulos Integrados da Sua Aprovação</h2>
+        <p>Você preenche apenas as células amarelas e a planilha cruza todos os dados automaticamente.</p>
+      </div>
+      <div class="modules-grid">
+        <div class="module-card">
+          <span class="step-num">MÓDULO 01</span>
+          <h3>Configuração de Banca</h3>
+          <p>Adapte para Prova Comum, Cebraspe Certo/Errado (1x1 ou 2x1) ou Pesos Específicos por disciplina, com meta de corte personalizada.</p>
+        </div>
+        <div class="module-card">
+          <span class="step-num">MÓDULO 02</span>
+          <h3>Matriz de até 30 Disciplinas</h3>
+          <p>Configure siglas, pontos por acerto, penalidade por erro e meta individual para cada matéria do seu edital.</p>
+        </div>
+        <div class="module-card">
+          <span class="step-num">MÓDULO 03</span>
+          <h3>Cadastro de Simulados</h3>
+          <p>Geração automática de IDs, controle de tempo de prova, questões em branco e apuração instantânea da Pontuação Líquida.</p>
+        </div>
+        <div class="module-card">
+          <span class="step-num">MÓDULO 04</span>
+          <h3>Diagnóstico de Erros</h3>
+          <p>Registre a Causa Principal de falha e a Próxima Ação para cada disciplina após o simulado, eliminando pontos cegos.</p>
+        </div>
+        <div class="module-card">
+          <span class="step-num">MÓDULO 05</span>
+          <h3>Edital Verticalizado & Revisões</h3>
+          <p>Controle o avanço da teoria, questões de fixação acumuladas, % de retenção por tópico e alerta de revisões vencidas.</p>
+        </div>
+        <div class="module-card">
+          <span class="step-num">MÓDULO 06</span>
+          <h3>Painel Universal (Dashboard)</h3>
+          <p>Contagem regressiva para o dia da prova, evolução em pontos percentuais (p.p.), histórico de simulados e status geral do edital.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="oferta">
+      <div class="offer-box">
+        <div class="pill" style="margin-bottom:0.5rem;">Oferta Especial de Lançamento</div>
+        <h2>Planilha Universal de Progressão para Concursos — Matriz</h2>
+        <div class="price-big">R$ 47,00</div>
+        <p style="color:var(--muted);">ou em até 6x de R$ 8,66 no cartão • Pagamento Único</p>
+        <ul class="check-list">
+          <li>✅ <strong>Matriz Reutilizável:</strong> Crie uma cópia para cada concurso que prestar</li>
+          <li>✅ <strong>Cálculo Automático de Nota Líquida:</strong> Suporte nativo a penalidades Cebraspe</li>
+          <li>✅ <strong>Edital Verticalizado + Controle de Revisões Vencidas</strong></li>
+          <li>✅ <strong>Funciona no Google Planilhas (gratuito) e Microsoft Excel (.xlsx)</strong></li>
+          <li>✅ <strong>Garantia Incondicional de 7 Dias pela Hotmart</strong></li>
+        </ul>
+        <a href="https://pay.hotmart.com/E108090525M?checkoutMode=10" target="_blank" rel="noopener" class="cta-btn" style="width:100%;">GARANTIR MINHA VAGA AGORA →</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>Perguntas Frequentes</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item" name="faq-concursos" open>
+          <summary>Serve para qualquer concurso público?</summary>
+          <p>Sim! Como ela é uma Matriz Universal, você mesmo cadastra as disciplinas e os tópicos do seu edital e escolhe a regra de pontuação da sua banca. Além disso, você pode fazer quantas cópias quiser para usar em múltiplos concursos ao mesmo tempo.</p>
+        </details>
+        <details class="faq-item" name="faq-concursos">
+          <summary>Calcula desconto de erradas do Cebraspe?</summary>
+          <p>Sim! Você pode configurar penalidade 1x1 (uma errada anula uma certa), 2x1 (duas erradas anulam uma certa) ou pontuação personalizada por disciplina, e a planilha deixa as questões em branco sem penalização.</p>
+        </details>
+        <details class="faq-item" name="faq-concursos">
+          <summary>Preciso saber mexer em Excel avançado?</summary>
+          <p>De jeito nenhum! A planilha possui trava visual inteligente: você só preenche as células amarelas e todos os cálculos, IDs e painéis funcionam sozinhos.</p>
+        </details>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>© 2026 Planilha Universal de Progressão para Concursos • Comercializado via Hotmart.</p>
+  </footer>
+</body>
+</html>
+
